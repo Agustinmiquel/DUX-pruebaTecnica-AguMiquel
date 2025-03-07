@@ -12,6 +12,9 @@ public class Equipo {
     private String liga;
     private String pais;
 
+    public Equipo() {
+    }
+
     public Equipo(Long id, String nombre, String liga, String pais) {
         this.id = id;
         this.nombre = nombre;

@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pruebaDux.demo.Service.UserDetailsServiceImpl;
 
 @Configuration
@@ -53,21 +54,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**","/v3/api-docs/**","/api-docs/**")
-                        .permitAll()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint((request, response, ex) -> {
-                            logger.error("Unauthorized error: {}", ex.getMessage());
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.setContentType("application/json");
-                            response.getWriter().write("{\"mensaje\":\"No autorizado\",\"codigo\":401}");
-                        })
+                                .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api-docs/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
