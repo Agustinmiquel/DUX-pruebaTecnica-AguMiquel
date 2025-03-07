@@ -1,0 +1,47 @@
+# Prueba Tecnica Dux Software
+
+Poryecto para la prueba técnica de Dux Software con Spring boot.
+
+## Requisitos
+
+- Java 17
+- Gradle
+- Docker
+
+## Configuración
+
+1. Clona el repositorio:
+    ```sh
+    git clone https://github.com/Agustinmiquel/DUX-pruebaTecnica-AguMiquel.git
+    cd https://github.com/Agustinmiquel/DUX-pruebaTecnica-AguMiquel.git
+    ```
+
+2. Construye el proyecto:
+    ```sh
+    ./gradlew build
+    ```
+
+3. Ejecuta la aplicación:
+    ```sh
+    ./gradlew bootRun
+    ```
+
+## Docker
+
+Para ejecutar la aplicación en Docker:
+
+1. Construye la imagen de Docker:
+    ```sh
+    docker build -t nombre-de-tu-imagen .
+    ```
+
+2. Ejecuta el contenedor:
+    ```sh
+    docker run -p 8000:8000 nombre-de-tu-imagen
+    ```
+
+## Endpoints
+
+- `/auth/login` - Endpoint para autenticación
+- `/v3/api-docs` - Documentación de la API
+- `/swagger-ui.html` - Interfaz de Swagger UI
